@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .title a {
+        text-decoration: none;
+    }
+</style>
+<body>
+<form th:action="@{/home}">
+    <input type="text" name="search">
+    <input type="submit">
+</form>
+<table>
+    <tr class="title">
+        <th>
+            <a th:href="
+            @{/home(
+            search = ${searchValue},
+            pageNumber = ${users.getNumber()},
+            direction = ${revertSort},
+            sortBy= 'id')}"
+            >ID</a>
+        </th>
+        <th><a>Name</a></th>
+        <th>Age</th>
+        <th>ClassName</th>
+        <th colspan="2">Action</th>
+    </tr>
+    <tr th:each="user:${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+        <td th:text="${user.classUser} ? ${user.classUser.name} : '' "></td>
+        <td><a th:href="@{/delete/(id=${user.id})}">Delete</a></td>
+        <td><a th:href="@{/edit/(id=${user.id})}">Edit</a></td>
+    </tr>
+
+    <tr>
+        <th:block th:if="${users.hasPrevious()}">
+            <a th:href="@{/home (pageNumber = ${users.getNumber()-1}
+            , search = ${searchValue}
+            ,direction = ${sort}
+            , sortBy= 'id')}"><</a>
+        </th:block>
+        <span th:text="${users.getNumber()}"></span>
+        /
+        <span th:text="${users.getTotalPages()}"></span>
+        <th:block th:if="${users.hasNext()}">
+            <a th:href="@{/home (pageNumber = ${users.getNumber()+1}
+            , search = ${searchValue}
+            ,direction = ${sort}
+            , sortBy= 'id')}"> > </a>
+        </th:block>
+    </tr>
+</table>
+</body>
+</html>

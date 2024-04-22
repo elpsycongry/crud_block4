@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/create-user}" method="post" th:object="${user}">
+    <input type="text" th:field="*{name}">
+    <input type="number" th:field="*{age}">
+    <select th:field="*{classUser.id}">
+        <th:block th:each="class : ${classList}">
+            <option th:value="${class.id}" th:text="${class.name}"></option>
+        </th:block>
+    </select>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>
